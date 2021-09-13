@@ -1,7 +1,7 @@
 class CreateJobsTable < ActiveRecord::Migration[6.1]
   def change
     create_table :jobs do |t|
-      t.belongs_to :restaurant_id, foreign_key: true
+      t.belongs_to :restaurant, foreign_key: true
       t.string :name
       t.string :type
       t.integer :pay
