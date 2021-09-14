@@ -11,8 +11,7 @@ class ApplicationController < Sinatra::Base
 
   # GET all jobs
   get "/api/jobs" do
-    j=Job.all
-    j.to_json
+    Job.all.to_json(include: :restaurant)
   end
 
   # GET all users
