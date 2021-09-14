@@ -4,31 +4,31 @@ class ApplicationController < Sinatra::Base
   # Add your routes here
 
   # GET all restaurants
-  get "/restaurants" do
+  get "/api/restaurants" do
     r=Restaurant.all
     r.to_json
   end
 
   # GET all jobs
-  get "/jobs" do
+  get "/api/jobs" do
     j=Job.all
     j.to_json
   end
 
   # GET all users
-  get "/users" do
+  get "/api/users" do
     u=User.all
     u.to_json
   end
 
   # GET specific restaurant with its jobs
-  get "/restaurants/:id" do
+  get "/api/restaurants/:id" do
     specific_restaurant = Restaurant.find(params[:id])
     specific_restaurant.to_json(include: :jobs)
   end
 
   # GET specific job and its applicants
-  get "/jobs/:id" do
+  get "/api/jobs/:id" do
     specific_job = Job.find(params[:id])
     specific_job.to_json(include:
     {userjobs: {include: :user}}
@@ -36,33 +36,33 @@ class ApplicationController < Sinatra::Base
   end
 
   # GET specific user and hiring manager's restaurants and posted jobs
-  get "/users/:id" do
+  get "/api/users/:id" do
     specific_user = User.find(params[:id])
     specific_user.to_json(include: {restaurants: {include: :jobs}})
   end
 
   # GET specific user and applied jobs
-  get "/myjobs/:id" do
+  get "/api/myjobs/:id" do
     specific_user = User.find(params[:id])
     specific_user.to_json(include: :userjobs)
   end
 
   #DELETE specific restaurant
-  delete "/restaurants/:id" do
+  delete "/api/restaurants/:id" do
     specific_restaurant = Restaurant.find(params[:id])
     specific_restaurant.destroy 
     specific_restaurant.to_json 
   end 
 
   #DELETE specific job
-  delete "/jobs/:id" do
+  delete "/api/jobs/:id" do
     specific_job = Job.find(params[:id])
     specific_job.destroy 
     specific_job.to_json 
   end 
 
   #POST new user
-  post "/users" do 
+  post "/api/users" do 
     new_user = User.create(
       hiringcheck_id: 2,
       full_name: params[:full_name],
@@ -76,7 +76,7 @@ class ApplicationController < Sinatra::Base
   end
 
   #POST new restaurant
-  post "/restaurants" do 
+  post "/api/restaurants" do 
     new_restaurant = Restaurant.create(
       user_id: params[:user_id],
       name: params[:name],
@@ -89,7 +89,7 @@ class ApplicationController < Sinatra::Base
   end
 
   #POST new job
-  post "/jobs" do 
+  post "/api/jobs" do 
     new_job = Job.create(
       restaurant_id: params[:restaurant_id],
       name: params[:name],
@@ -102,7 +102,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # PATCH specific restaurant
-  patch "/restaurants/:id" do
+  patch "/api/restaurants/:id" do
     specific_restaurant = Restaurant.find(params[:id])
     specific_restaurant.update(
       price_range: params[:price_range],
@@ -112,7 +112,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # PATCH specific job
-  patch "/jobs/:id" do
+  patch "/api/jobs/:id" do
     specific_job = Job.find(params[:id])
     specific_job.update(
       job_type: params[:job_type],
@@ -124,7 +124,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # PATCH specific user
-  patch "/users/:id" do
+  patch "/api/users/:id" do
     specific_user = User.find(params[:id])
     specific_user.update(
       hiringcheck_id: 2,
