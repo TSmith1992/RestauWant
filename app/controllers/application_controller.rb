@@ -21,22 +21,30 @@ class ApplicationController < Sinatra::Base
     u.to_json
   end
 
-  # GET specific restaurant
+  # GET specific restaurant with its jobs
   get "/restaurants/:id" do
     specific_restaurant = Restaurant.find(params[:id])
-    specific_restaurant.to_json
+    specific_restaurant.to_json(include: :jobs)
   end
 
-  # GET specific job
+  # GET specific job and its applicants
   get "/jobs/:id" do
     specific_job = Job.find(params[:id])
-    specific_job.to_json
+    specific_job.to_json(include:
+    {userjobs: {include: :user}}
+    )
   end
 
-  # GET specific user
+  # GET specific user and hiring manager's restaurants and posted jobs
   get "/users/:id" do
     specific_user = User.find(params[:id])
-    specific_user.to_json
+    specific_user.to_json(include: {restaurants: {include: :jobs}})
+  end
+
+  # GET specific user and applied jobs
+  get "/myjobs/:id" do
+    specific_user = User.find(params[:id])
+    specific_user.to_json(include: :userjobs)
   end
 
   #DELETE specific restaurant
