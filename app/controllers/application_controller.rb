@@ -2,8 +2,132 @@ class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
   # Add your routes here
-  get "/" do
-    { message: "Good luck with your project!" }.to_json
+
+  # GET all restaurants
+  get "/restaurants" do
+    r=Restaurant.all
+    r.to_json
   end
+
+  # GET all jobs
+  get "/jobs" do
+    j=Job.all
+    j.to_json
+  end
+
+  # GET all users
+  get "/users" do
+    u=User.all
+    u.to_json
+  end
+
+  # GET specific restaurant
+  get "/restaurants/:id" do
+    specific_restaurant = Restaurant.find(params[:id])
+    specific_restaurant.to_json
+  end
+
+  # GET specific job
+  get "/jobs/:id" do
+    specific_job = Job.find(params[:id])
+    specific_job.to_json
+  end
+
+  # GET specific user
+  get "/users/:id" do
+    specific_user = User.find(params[:id])
+    specific_user.to_json
+  end
+
+  #DELETE specific restaurant
+  delete "/restaurants/:id" do
+    specific_restaurant = Restaurant.find(params[:id])
+    specific_restaurant.destroy 
+    specific_restaurant.to_json 
+  end 
+
+  #DELETE specific job
+  delete "/jobs/:id" do
+    specific_job = Job.find(params[:id])
+    specific_job.destroy 
+    specific_job.to_json 
+  end 
+
+  #POST new user
+  post "/users" do 
+    new_user = User.create(
+      hiringcheck_id: 2,
+      full_name: params[:full_name],
+      phone_number: params[:phone_number],
+      email: params[:email],
+      description: params[:description],
+      profile_pic: params[:profile_pic],
+      linkedin_link: params[:linkedin_link],
+    )
+    new_user.to_json
+  end
+
+  #POST new restaurant
+  post "/restaurants" do 
+    new_restaurant = Restaurant.create(
+      user_id: params[:user_id],
+      name: params[:name],
+      borough_location: params[:borough_location],
+      price_range: params[:price_range],
+      picture: params[:picture],
+      restaurant_type: params[:restaurant_type]
+    )
+    new_restaurant.to_json
+  end
+
+  #POST new job
+  post "/jobs" do 
+    new_job = Job.create(
+      restaurant_id: params[:restaurant_id],
+      name: params[:name],
+      job_type: params[:job_type],
+      pay: params[:pay],
+      description: params[:description],
+      desired_start_date: params[:desired_start_date]
+    )
+    new_job.to_json
+  end
+
+  # PATCH specific restaurant
+  patch "/restaurants/:id" do
+    specific_restaurant = Restaurant.find(params[:id])
+    specific_restaurant.update(
+      price_range: params[:price_range],
+      picture: params[:picture]
+    )
+    specific_restaurant.to_json
+  end
+
+  # PATCH specific job
+  patch "/jobs/:id" do
+    specific_job = Job.find(params[:id])
+    specific_job.update(
+      job_type: params[:job_type],
+      pay: params[:pay],
+      description: params[:description],
+      desired_start_date: params[:desired_start_date]
+    )
+    specific_job.to_json
+  end
+
+  # PATCH specific user
+  patch "/users/:id" do
+    specific_user = User.find(params[:id])
+    specific_user.update(
+      hiringcheck_id: 2,
+      phone_number: params[:phone_number],
+      email: params[:email],
+      description: params[:description],
+      profile_pic: params[:profile_pic],
+      linkedin_link: params[:linkedin_link],
+    )
+    specific_user.to_json
+  end
+  
 
 end

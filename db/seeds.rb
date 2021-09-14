@@ -1,15 +1,15 @@
 # require 'faker'
-# Hiringcheck.destroy_all
-# User.destroy_all
-# Job.destroy_all
-# Restaurant.destroy_all
-# Userjob.destroy_all
+Hiringcheck.destroy_all
+User.destroy_all
+Job.destroy_all
+Restaurant.destroy_all
+Userjob.destroy_all
 
 puts "🌱 Seeding spices..."
 
-# puts "🌱 Seeding hiring_manager_check..."
-# Hiringcheck.create(manager?: true)
-# Hiringcheck.create(manager?: false)
+puts "🌱 Seeding hiring_manager_check..."
+Hiringcheck.create(manager?: true)
+Hiringcheck.create(manager?: false)
 
 puts "🌱 Seeding users..."
 # t.integer "hiringcheck_id_id"
@@ -24,15 +24,15 @@ puts "🌱 Seeding users..."
 # User.create(hiringcheck_id:1, full_name:"Shivang D.", phone_number: 5555555552, email: "ShivangsEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
 # User.create(hiringcheck_id:1, full_name:"Dakota M.", phone_number: 5555555553, email: "DakotasEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
 
-# 100.times do 
-#     User.create(
-#     hiringcheck_id:2, 
-#     full_name:Faker::Name.name, 
-#     phone_number: Faker::PhoneNumber.cell_phone, 
-#     email: Faker::Internet.email, 
-#     description: Faker::Quote.famous_last_words
-#     )
-# end
+100.times do 
+    User.create(
+    hiringcheck_id:2, 
+    full_name:Faker::Name.name, 
+    phone_number: Faker::PhoneNumber.cell_phone, 
+    email: Faker::Internet.email, 
+    description: Faker::Quote.famous_last_words
+    )
+end
 
 puts "🌱 Seeding restaurants..."
 #borough_location is given an int value so we can match each one to a borough (i.e. 1 => Queens, 2 => Manhattan, etc.)
