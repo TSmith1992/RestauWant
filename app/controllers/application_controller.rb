@@ -35,12 +35,12 @@ class ApplicationController < Sinatra::Base
   end
 
   # GET specific user and hiring manager's restaurants and posted jobs
-  get "/api/users/:id" do
-    specific_user = User.find(params[:id])
+  get "/api/users/:full_name" do
+    specific_user = User.find_by_full_name(params[:full_name])
     if specific_user
       specific_user.to_json(include: {restaurants: {include: :jobs}})
     else
-      {message: "This id does not exist"}.to_json
+      {message: "This username does not exist"}.to_json
     end
   end
 
