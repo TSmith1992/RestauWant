@@ -36,8 +36,16 @@ class ApplicationController < Sinatra::Base
 
   # GET specific user and hiring manager's restaurants and posted jobs
   get "/api/users/:id" do
+    if params[:id] != "1"||"2"||"3"||"4"
+      {message: "You are not a hiring manager. Only hiring manager's can post jobs"}.to_json
+    else
     specific_user = User.find(params[:id])
-    specific_user.to_json(include: {restaurants: {include: :jobs}})
+      if specific_user
+        specific_user.to_json(include: {restaurants: {include: :jobs}})
+      else
+        {message: "This id does not exist"}.to_json
+      end
+    end
   end
 
   # GET specific user and applied jobs
