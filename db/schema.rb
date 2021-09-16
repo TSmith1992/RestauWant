@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_173951) do
+ActiveRecord::Schema.define(version: 2021_09_16_193103) do
 
   create_table "hiringchecks", force: :cascade do |t|
     t.boolean "manager?"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_173951) do
     t.text "description"
     t.date "desired_start_date"
     t.integer "hiring_managerid"
+    t.text "hiring_managername"
     t.index ["restaurant_id"], name: "index_jobs_on_restaurant_id"
   end
 

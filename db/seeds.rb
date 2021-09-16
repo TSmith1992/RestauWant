@@ -1,9 +1,9 @@
 # require 'faker'
 # Hiringcheck.destroy_all
 # User.destroy_all
+Userjob.destroy_all
 Job.destroy_all
 # Restaurant.destroy_all
-Userjob.destroy_all
 
 # puts "🌱 Seeding spices..."
 
@@ -54,15 +54,17 @@ puts "🌱 Seeding jobs..."
 #name is given an int value so we can match each one to a job (i.e. 1 => Chef, 2 => Manager, etc.)
 
 200.times do 
-    Job.create(
+    job=Job.create(
     name: rand(1..5),
     restaurant_id:rand(1..90),
     job_type: Faker::Job.employment_type,
     pay: rand(15..30),
     description: Faker::Job.seniority,
     desired_start_date: Faker::Date.between(from: '2021-10-01', to: '2022-02-01'),
-    # hiring_managerid: self.get_id
     )
+    job.hiring_managerid =job.restaurant.user_id
+    job.hiring_managername = job.restaurant.user.full_name
+    job.save
 end
 
 puts "🌱 Seeding user_jobs..."
