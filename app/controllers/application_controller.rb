@@ -1,3 +1,4 @@
+require "json"
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
@@ -98,6 +99,8 @@ class ApplicationController < Sinatra::Base
 
   #POST new job
   post "/api/jobs" do 
+    JSON.parse(request.body.read.to_json)
+    
     new_job = Job.create(
       restaurant_id: params[:restaurant_id],
       name: params[:name],
