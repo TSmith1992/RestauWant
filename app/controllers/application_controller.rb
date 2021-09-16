@@ -14,11 +14,17 @@ class ApplicationController < Sinatra::Base
   get "/api/jobs" do
     Job.all.to_json(include: :restaurant)
   end
-  
-  # GET all user jobs
-  get "/api/userjobs" do
-    Userjob.all.to_json(include: :job)
+
+  # GET all jobs and applicants
+  get "/api/applicants" do
+    Job.all.to_json(include: {restaurant: {include: {jobs: {include: {userjobs: {include: :user}}}}}})
+    # Job.all.to_json(include: :restaurant)
   end
+  
+  # # GET all user jobs
+  # get "/api/userjobs" do
+  #   Userjob.all.to_json(include: :job)
+  # end
 
   # GET all users
   get "/api/users" do
@@ -44,7 +50,7 @@ class ApplicationController < Sinatra::Base
   get "/api/users/:full_name" do
     specific_user = User.find_by_full_name(params[:full_name])
     if specific_user
-      specific_user.to_json(include: {restaurants: {include: :jobs}})
+      specific_user.to_json(include: {restaurants: {include: {jobs: {include: {userjobs: {include: :user}}}}}})
     else
       {message: "This username does not exist"}.to_json
     end
