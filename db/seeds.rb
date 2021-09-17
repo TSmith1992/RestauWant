@@ -1,17 +1,17 @@
-require 'faker'
+# require 'faker'
 Hiringcheck.destroy_all
 User.destroy_all
 Userjob.destroy_all
 Job.destroy_all
 Restaurant.destroy_all
 
-# puts "🌱 Seeding spices..."
+puts "🌱 Seeding spices..."
 
-# puts "🌱 Seeding hiring_manager_check..."
+puts "🌱 Seeding hiring_manager_check..."
 Hiringcheck.create(manager?: true)
 Hiringcheck.create(manager?: false)
 
-# puts "🌱 Seeding users..."
+ puts "🌱 Seeding users..."
 # # t.integer "hiringcheck_id_id"
 # # t.string "full_name"
 # # t.integer "phone_number"
@@ -19,10 +19,10 @@ Hiringcheck.create(manager?: false)
 # # t.text "description"
 # # t.text "profile_pic"
 # # t.text "linkedin_link"
-# User.create(hiringcheck_id:1, full_name:"Tye S.", phone_number: 5555555555, email: "TyesEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
-# User.create(hiringcheck_id:1, full_name:"Chris K.", phone_number: 5555555551, email: "ChrissEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
-# User.create(hiringcheck_id:1, full_name:"Shivang D.", phone_number: 5555555552, email: "ShivangsEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
-# User.create(hiringcheck_id:1, full_name:"Dakota M.", phone_number: 5555555553, email: "DakotasEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
+User.create(hiringcheck_id:1, full_name:"Tye S.", phone_number: 5555555555, email: "TyesEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
+User.create(hiringcheck_id:1, full_name:"Chris K.", phone_number: 5555555551, email: "ChrissEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
+User.create(hiringcheck_id:1, full_name:"Shivang D.", phone_number: 5555555552, email: "ShivangsEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
+User.create(hiringcheck_id:1, full_name:"Dakota M.", phone_number: 5555555553, email: "DakotasEmail@email.com", description: "I like long walks on the beach, and hiring for restaurants!")
 
 100.times do 
     User.create(
@@ -30,7 +30,8 @@ Hiringcheck.create(manager?: false)
     full_name:Faker::Name.name, 
     phone_number: Faker::PhoneNumber.cell_phone, 
     email: Faker::Internet.email, 
-    description: Faker::Quote.famous_last_words
+    description: Faker::Quote.famous_last_words,
+    hired?: false
     )
 end
 
@@ -71,7 +72,7 @@ puts "🌱 Seeding user_jobs..."
 
 150.times do 
     Userjob.create(
-    user_id:rand(4..100), 
+    user_id:rand(5..100), 
     job_id:rand(1..200)
     )
 end

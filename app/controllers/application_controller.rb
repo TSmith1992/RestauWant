@@ -20,11 +20,12 @@ class ApplicationController < Sinatra::Base
     Job.all.to_json(include: {restaurant: {include: {jobs: {include: {userjobs: {include: :user}}}}}})
     # Job.all.to_json(include: :restaurant)
   end
-  
-  # # GET all user jobs
-  # get "/api/userjobs" do
-  #   Userjob.all.to_json(include: :job)
-  # end
+  # Joellen Ratke
+  # GET specific user and applied jobs
+  get "/api/myappliedjobs/:full_name" do
+    specific_user = User.find_by_full_name(params[:full_name])
+    specific_user.to_json(include: {userjobs: {include: :job}})
+  end
 
   # GET all users
   get "/api/users" do
@@ -56,17 +57,16 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-    # GET specific hiring manager's restaurants and posted jobs
-    # hkn
-    get "/api/applicants/:full_name" do
-      specific_user =Job.select{|i| i.hiring_managername ==params[:full_name]}
+  # GET specific hiring manager's restaurants and posted jobs
+  get "/api/applicants/:full_name" do
+    specific_user =Job.select{|i| i.hiring_managername ==params[:full_name]}
       # _by_hiring_managername(params[:full_name])
-      if specific_user
-        specific_user.to_json(include: :users)
-      else
-        {message: "This username does not exist"}.to_json
-      end
+    if specific_user
+      specific_user.to_json(include: :users)
+    else
+      {message: "This username does not exist"}.to_json
     end
+  end
 
   # GET specific user and applied jobs
   get "/api/myjobs/:id" do
@@ -158,6 +158,8 @@ class ApplicationController < Sinatra::Base
       job_id: params[:id],
       user_id: 1 #to do remove hard-coded userID
     )
+    # new_job.user_id = User.find_by_full_name(params[:full_name]).id
+    # new_job.save
     new_job.to_json
   end
 
@@ -173,6 +175,15 @@ class ApplicationController < Sinatra::Base
       linkedin_link: params[:linkedin_link],
     )
     specific_user.to_json
+  end
+
+  #PATCH user hiring status
+  patch "/api/booked/:full_name" do
+    hired_user=User.find_by_full_name(params[:full_name])
+    # hired_user.hired?=true
+    hired_user.update(hired?:true)
+    hired_user.save
+    hired_user.to_json
   end
   
 
