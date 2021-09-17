@@ -83,7 +83,7 @@ class ApplicationController < Sinatra::Base
 
   #DELETE user job
   delete "/api/userjobs/:id" do
-    job = UserJob.find(params[:id])
+    job = Userjob.find(params[:id])
     job.destroy 
     job.to_json 
   end 
