@@ -24,7 +24,7 @@ class ApplicationController < Sinatra::Base
   # GET specific user and applied jobs
   get "/api/myappliedjobs/:full_name" do
     specific_user = User.find_by_full_name(params[:full_name])
-    specific_user.to_json(include: {userjobs: {include: :job}})
+    specific_user.to_json(include: {userjobs: {include: {job:{include: :restaurant}}}})
   end
 
   # GET all users
@@ -79,6 +79,13 @@ class ApplicationController < Sinatra::Base
     specific_restaurant = Restaurant.find(params[:id])
     specific_restaurant.destroy 
     specific_restaurant.to_json 
+  end 
+
+  #DELETE user job
+  delete "/api/userjobs/:id" do
+    job = UserJob.find(params[:id])
+    job.destroy 
+    job.to_json 
   end 
 
   #DELETE specific job
@@ -154,9 +161,16 @@ class ApplicationController < Sinatra::Base
 
   # POST apply to specific job
   post "/api/jobs/:id/apply" do
+    JSON.parse(request.body.read.to_json)
+    specific_user = User.find_by_full_name(params[:user_full_name])
+    puts specific_user
+    puts params
     new_job = Userjob.create(
+      
       job_id: params[:id],
-      user_id: 1 #to do remove hard-coded userID
+      user_id: specific_user.id
+      #to do -parse params [user_id]
+      #copy JSON parse from jobcreator handler, this file, 
     )
     # new_job.user_id = User.find_by_full_name(params[:full_name]).id
     # new_job.save
